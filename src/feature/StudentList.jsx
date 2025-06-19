@@ -2,7 +2,7 @@ import { useState } from "react";
 import useStudent from "./useStudent";
 import Spinner from "../ui/Spinner";
 import { useNavigate } from "react-router-dom";
-import { DELETE_SERVICE, POST_SERVICE, PUT_SERVICE } from "../Url";
+import { CRUD_SERVICE } from "../Url";
 import { useQueryClient } from "@tanstack/react-query";
 import { AUTH_REQUEST } from "../axiosConfig";
 
@@ -52,11 +52,11 @@ function StudentList() {
     try {
       if (isEditing) {
         // Update student
-        await AUTH_REQUEST.put(`${PUT_SERVICE}/api/v1/students`, formData);
+        await AUTH_REQUEST.put(`${CRUD_SERVICE}/api/v1/students`, formData);
         alert("Student updated successfully");
       } else {
         // Create student
-        await AUTH_REQUEST.post(`${POST_SERVICE}/api/v1/students`, formData);
+        await AUTH_REQUEST.post(`${CRUD_SERVICE}/api/v1/students`, formData);
         alert("Student added successfully");
       }
       queryClient.invalidateQueries({ queryKey: ["students"] });
@@ -69,7 +69,7 @@ function StudentList() {
   const handleDelete = async (studentId) => {
     if (confirm("Delete this student?")) {
       try {
-        await AUTH_REQUEST.delete(`${DELETE_SERVICE}/api/v1/students/${studentId}`);
+        await AUTH_REQUEST.delete(`${CRUD_SERVICE}/api/v1/students/${studentId}`);
         alert("Student deleted successfully");
         queryClient.invalidateQueries({ queryKey: ["students"] });
       } catch (error) {
