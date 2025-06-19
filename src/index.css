@@ -1,0 +1,145 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  @keyframes loading {
+    20% {
+      background-position: 0% 0%, 50% 50%, 100% 50%;
+    }
+    40% {
+      background-position: 0% 100%, 50% 0%, 100% 50%;
+    }
+    60% {
+      background-position: 0% 50%, 50% 100%, 100% 0%;
+    }
+    80% {
+      background-position: 0% 50%, 50% 50%, 100% 100%;
+    }
+  }
+  .loader {
+    width: 48px;
+    height: 48px;
+    border: 5px solid orange;
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    margin: auto;
+    justify-items: center;
+    align-items: center;
+    aspect-ratio: 1;
+    animation: rotation 1s linear infinite;
+  }
+
+  @keyframes rotation {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+}
+
+@layer utilities {
+  .clip-path-right {
+    clip-path: polygon(50% 0%, 100% 0%, 100% 100%, 50% 100%);
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+
+  /* Creating animations for dark mode */
+  transition: background-color 0.3s, border 0.3s;
+  font-family: "Roboto", sans-serif;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
+img {
+  max-width: 100%;
+
+  /* For dark mode */
+  /* filter: grayscale(var(--image-grayscale)) opacity(var(--image-opacity)); */
+}
+
+.chat-bg {
+  background-image: url("../public/Image/chat-bg.png");
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.chat-item-active {
+  color: #fff;
+  background-color: royalblue;
+}
+
+.custom-menu {
+  @apply bg-white rounded-md shadow-lg border border-gray-200 p-2 min-w-[150px];
+}
+
+.custom-menu .p-menuitem-link {
+  @apply block px-4 py-2 text-black text-3xl;
+}
+
+.custom-menu .p-menuitem-link:hover {
+  @apply bg-gray-100;
+}
+
+.slick-prev,
+.slick-next {
+  z-index: 10;
+  width: 40px;
+  height: 40px;
+  background: white;
+  border-radius: 50%;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.slick-prev {
+  left: -50px;
+}
+
+.slick-next {
+  right: -50px;
+}
+
+.slick-prev:before,
+.slick-next:before {
+  color: #6b7280 !important; /* Gray color for arrows */
+  font-size: 24px;
+}
+
+.slick-dots li button:before {
+  color: #d1d5db; /* Light gray for dots */
+}
+
+.slick-dots li.slick-active button:before {
+  color: #8b5cf6; /* Purple for active dot */
+}

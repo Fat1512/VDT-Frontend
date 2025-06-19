@@ -1,0 +1,14 @@
+namespace: "frontend"
+
+# Deployment
+image:
+  repository: "fat1512/vdt-capstone-25"
+  tag: latest
+
+replicaCount: 1
+
+# Service
+service:
+  type: NodePort
+  port: 30100
+  targetPort: 80
