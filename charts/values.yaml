@@ -2,8 +2,8 @@ namespace: "frontend"
 
 # Deployment
 image:
-  repository: "fat1512/vdt-frontend:1.0"
-  tag: latest
+  repository: "fat1512/vdt-frontend"
+  tag: 1.0
 
 replicaCount: 1
 
