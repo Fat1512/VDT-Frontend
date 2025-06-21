@@ -16,7 +16,6 @@ pipeline {
                       mountPath: /home/jenkins/agent
 
                   # Container 2
-                  # THAY ĐỔI: Sử dụng image 'debug' của Kaniko. Image này chứa shell và lệnh 'sleep'.
                   - name: kaniko
                     image: gcr.io/kaniko-project/executor:debug
                     imagePullPolicy: Always
@@ -33,10 +32,8 @@ pipeline {
                     - name: docker-config
                       mountPath: /kaniko/.docker/
                   volumes:
-                  # Volume để chia sẻ workspace giữa tất cả các container
                   - name: workspace-volume
                     emptyDir: {}
-                  # Volume từ Secret để Kaniko xác thực với Docker Hub
                   - name: docker-config
                     secret:
                       secretName: dockerhub-credentials
@@ -48,8 +45,6 @@ pipeline {
         }
     }
 
-    // THAY ĐỔI 2: Cập nhật biến môi trường
-    // DOCKERHUB_CREDENTIALS_ID không còn cần thiết cho việc build
     environment {
         DOCKER_IMAGE_NAME = 'fat1512/vdt-frontend'
         GIT_BRANCH = 'main'
@@ -69,16 +64,12 @@ pipeline {
                 }
             }
         }
-        // THAY ĐỔI 5: Giai đoạn quan trọng nhất - Build và Push với KANIKO
         stage('Build & Push Docker Image (with Kaniko)') {
             steps {
-                // THAY ĐỔI: Chạy `script` ở ngoài `container` để lấy git commit trước
                 script {
-                    // Bước 1: Lấy git commit hash trong container mặc định 'jnlp' (nơi có git)
                     def gitCommit = sh(script: 'git rev-parse HEAD', returnStdout: true).trim().substring(0, 8)
                     def dockerImageTag = "${DOCKER_IMAGE_NAME}:${gitCommit}"
 
-                    // Bước 2: Đi vào container 'kaniko' để thực hiện build
                     container('kaniko') {
                         echo "Đang build và push image với Kaniko: ${dockerImageTag}"
                         sh """
@@ -93,7 +84,6 @@ pipeline {
         }
         stage('Update K8s Manifest Repo') {
             steps {
-                // Chạy trong container mặc định là 'jnlp'
                 script {
                     def gitCommit = sh(script: 'git rev-parse HEAD', returnStdout: true).trim().substring(0, 8)
                     def dockerImageTag = "${DOCKER_IMAGE_NAME}:${gitCommit}"
@@ -107,7 +97,6 @@ pipeline {
                         dir('VDT-Frontend-Config') {
                             echo "Đang cập nhật image tag trong app/deployment.yaml thành ${dockerImageTag}"
         
-                            // Optional if you're using Helm chart structure
                             sh "sed -i 's|image: .*|image: ${dockerImageTag}|g' charts/templates/deployment.yaml"
         
                             sh "git config user.email 'letanphat15122004@gmail.com'"
