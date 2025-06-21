@@ -95,9 +95,9 @@ pipeline {
                         sh "git clone -b main git@github.com:Fat1512/VDT-Frontend-Config.git"
         
                         dir('VDT-Frontend-Config') {
-                            echo "Đang cập nhật image tag trong app/deployment.yaml thành ${dockerImageTag}"
+                            echo "Updating image tag to ${dockerImageTag}"
         
-                            sh "sed -i 's|image: .*|image: ${dockerImageTag}|g' charts/templates/deployment.yaml"
+                            sh "sed -i 's|tag: .*|tag: ${dockerImageTag}|g' charts/values.yaml"
         
                             sh "git config user.email 'letanphat15122004@gmail.com'"
                             sh "git config user.name 'Fat1512'"
