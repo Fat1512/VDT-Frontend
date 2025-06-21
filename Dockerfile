@@ -1,11 +1,14 @@
-# ---------- Stage 1: Build ----------
-FROM node:20.19.2-alpine AS builder
+# ---- Build Stage ----
+FROM node:18-alpine AS builder
 
+# Set working directory
 WORKDIR /app
 
-# COPY package.json ./
-# RUN npm ci
+# Copy package.json and install dependencies
+COPY package*.json ./
+RUN npm install
 
+# Copy the rest of the app and build
 COPY . .
 RUN npm run build
 
