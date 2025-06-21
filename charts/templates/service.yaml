@@ -7,9 +7,10 @@ metadata:
     app: {{ .Chart.Name }}
 spec:
   type: {{ .Values.service.type }}
-  ports:
-  - port: {{ .Values.service.port }}
-    targetPort: {{ .Values.service.targetPort }}
   selector:
     app: {{ .Chart.Name }}
   type: NodePort
+  ports:
+  - port: {{ .Values.service.port }}
+    targetPort: {{ .Values.service.targetPort }}
+    nodePort: {{ .Values.service.targetPort }}
