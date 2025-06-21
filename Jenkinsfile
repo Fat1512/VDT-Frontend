@@ -97,7 +97,7 @@ pipeline {
                         dir('VDT-Frontend-Config') {
                             echo "Updating image tag to ${dockerImageTag}"
         
-                            sh "sed -i 's|tag: .*|tag: ${dockerImageTag}|g' charts/values.yaml"
+                            sh "sed -i 's|tag: .*|tag: ${dockerImageTag}|g' values.yaml"
         
                             sh "git config user.email 'letanphat15122004@gmail.com'"
                             sh "git config user.name 'Fat1512'"
