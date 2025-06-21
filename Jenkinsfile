@@ -86,7 +86,7 @@ pipeline {
             steps {
                 script {
                     def gitCommit = sh(script: 'git rev-parse HEAD', returnStdout: true).trim().substring(0, 8)
-                    def dockerImageTag = "${DOCKER_IMAGE_NAME}:${gitCommit}"
+                    def dockerImageTag = "${gitCommit}"
 
                     echo "Update K8s Frontend Manifest..."
                     
@@ -95,15 +95,15 @@ pipeline {
                         sh "git clone -b main git@github.com:Fat1512/VDT-Frontend-Config.git"
         
                         dir('VDT-Frontend-Config') {
-                            echo "Updating image tag to ${gitCommit}"
+                            echo "Updating image tag to ${dockerImageTag}"
         
-                            sh "sed -i 's|tag: .*|tag: ${gitCommit}|g' charts/values.yaml"
+                            sh "sed -i 's|tag: .*|tag: ${dockerImageTag}|g' charts/values.yaml"
         
                             sh "git config user.email 'letanphat15122004@gmail.com'"
                             sh "git config user.name 'Fat1512'"
         
                             sh "git add -A"
-                            sh "git commit -m 'ci: update ${gitCommit}'"
+                            sh "git commit -m 'ci: update ${dockerImageTag}'"
                             sh "git push origin main"
                         }
                     }
