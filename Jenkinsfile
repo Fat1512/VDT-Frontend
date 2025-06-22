@@ -107,7 +107,7 @@ pipeline {
                             sh "git push origin main"
                         }
                     }
-                    echo "Cập nhật kho chứa cấu hình K8s thành công."
+                    echo "Successfully update K8s manifest."
                 }
             }
         }
