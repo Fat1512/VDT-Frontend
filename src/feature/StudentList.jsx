@@ -84,7 +84,7 @@ function StudentList() {
 
   return (
     <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4 text-center">Student Information</h1>
+      <h1 className="text-2xl font-bold mb-4 text-center">Student Information - V2</h1>
       <div className="mb-4">
         <button
           onClick={() => handleOpenForm()}
