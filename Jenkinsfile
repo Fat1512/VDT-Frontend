@@ -67,27 +67,17 @@ pipeline {
         stage('Build & Push Docker Image (with Kaniko)') {
             steps {
                 script {
-                    // Get current tag (if any)
-                    def gitTag = sh(script: "git describe --tags --exact-match || true", returnStdout: true).trim()
-
-                    // If no tag is found, skip the stage
-                    if (!gitTag) {
-                        echo "No Git tag found. Skipping Kaniko build."
-                        error("Pipeline stopped because this commit is not tagged.")
-                    }
-
-                    // Continue only if a tag is found
                     def gitCommit = sh(script: 'git rev-parse HEAD', returnStdout: true).trim().substring(0, 8)
-                    def dockerImageTag = "${DOCKER_IMAGE_NAME}:${gitTag}-${gitCommit}"
+                    def dockerImageTag = "${DOCKER_IMAGE_NAME}:${gitCommit}"
 
                     container('kaniko') {
-                        echo "Building and pushing image with Kaniko: ${dockerImageTag}"
+                        echo "Đang build và push image với Kaniko: ${dockerImageTag}"
                         sh """
                         /kaniko/executor --context `pwd` \\
-                                        --dockerfile `pwd`/Dockerfile \\
-                                        --destination ${dockerImageTag}
+                                         --dockerfile `pwd`/Dockerfile \\
+                                         --destination ${dockerImageTag}
                         """
-                        echo "Build and push with Kaniko completed."
+                        echo "Build và push với Kaniko thành công."
                     }
                 }
             }
@@ -95,10 +85,8 @@ pipeline {
         stage('Update K8s Manifest Repo') {
             steps {
                 script {
-                    // def gitCommit = sh(script: 'git rev-parse HEAD', returnStdout: true).trim().substring(0, 8)
-                    def gitTag = sh(script: "git describe --tags --exact-match || true", returnStdout: true).trim()
-
-                    def dockerImageTag = "${gitTag}"
+                    def gitCommit = sh(script: 'git rev-parse HEAD', returnStdout: true).trim().substring(0, 8)
+                    def dockerImageTag = "${gitCommit}"
 
                     echo "Update K8s Frontend Manifest..."
                     
