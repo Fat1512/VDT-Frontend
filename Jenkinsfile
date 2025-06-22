@@ -73,7 +73,7 @@ pipeline {
                     // If no tag is found, skip the stage
                     if (!gitTag) {
                         echo "No Git tag found. Skipping Kaniko build."
-                        return  // This exits the stage early
+                        error("Pipeline stopped because this commit is not tagged.")
                     }
 
                     // Continue only if a tag is found
