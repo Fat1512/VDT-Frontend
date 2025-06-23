@@ -71,13 +71,13 @@ pipeline {
                     def dockerImageTag = "${DOCKER_IMAGE_NAME}:${gitCommit}"
 
                     container('kaniko') {
-                        echo "Đang build và push image với Kaniko: ${dockerImageTag}"
+                        echo "Build and Push image with Kaniko: ${dockerImageTag}"
                         sh """
                         /kaniko/executor --context `pwd` \\
                                          --dockerfile `pwd`/Dockerfile \\
                                          --destination ${dockerImageTag}
                         """
-                        echo "Build và push với Kaniko thành công."
+                        echo "Build and push with Kaniko successfully."
                     }
                 }
             }
